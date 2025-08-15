@@ -453,7 +453,7 @@ function transformSchemaObjectCore(schemaObject: SchemaObject, options: Transfor
     ("$defs" in schemaObject && schemaObject.$defs)
   ) {
     // properties
-    if (Object.keys(schemaObject.properties ?? {}).length) {
+    if ("properties" in schemaObject && schemaObject.properties && Object.keys(schemaObject?.properties).length) {
       for (const [k, v] of getEntries(schemaObject.properties ?? {}, options.ctx)) {
         if ((typeof v !== "object" && typeof v !== "boolean") || Array.isArray(v)) {
           throw new Error(
@@ -522,7 +522,7 @@ function transformSchemaObjectCore(schemaObject: SchemaObject, options: Transfor
     }
 
     // $defs
-    if (schemaObject.$defs && typeof schemaObject.$defs === "object" && Object.keys(schemaObject.$defs).length) {
+    if ("$defs" in schemaObject && typeof schemaObject.$defs === "object" && Object.keys(schemaObject.$defs).length) {
       const defKeys: ts.TypeElement[] = [];
       for (const [k, v] of Object.entries(schemaObject.$defs)) {
         const property = ts.factory.createPropertySignature(
